@@ -49,8 +49,8 @@ class Review(models.Model):
             MinValueValidator(1)
         ]
     )
-    author = models.ForeignKey(Student,default=None)
-    teacher = models.ForeignKey(Teacher,default=None)
+    author = models.ForeignKey(Student,on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -63,8 +63,8 @@ class Inquiry(models.Model):
     phone_number = models.CharField(max_length=20)
     email = models.CharField(max_length=100)
     viewed = models.BooleanField(default=False)
-    inquirer = models.ForeignKey(Student,default=None)
-    preferred_teacher = models.ForeignKey(Teacher,default=None)
+    inquirer = models.ForeignKey(Student,on_delete=models.CASCADE)
+    preferred_teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.conent
