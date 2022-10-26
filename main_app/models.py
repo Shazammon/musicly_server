@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 from email.policy import default
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -24,18 +25,18 @@ class Teacher(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=50)
-    bio = models.CharField(max_length=1000)
+    bio = models.CharField(max_length=1000, blank=True)
     average_rating = models.IntegerField(
         validators=[
             MaxValueValidator(5),
             MinValueValidator(1)
-        ]
+        ], blank=True
     )
-    years_experience = models.IntegerField()
+    years_experience = models.IntegerField(blank=True)
     accepting_students = models.BooleanField(
         default = True
     )
-    instruments = models.ManyToManyField(Instrument)
+    instruments = models.ManyToManyField(Instrument, blank=True)
 
     def __str__(self):
         return self.name
