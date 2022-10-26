@@ -2,8 +2,11 @@ from contextlib import nullcontext
 from email.policy import default
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 # Create your models here.
+
+class UserManager(BaseUserManager)
 
 class Instrument(models.Model):
     name = models.CharField(max_length=50)
