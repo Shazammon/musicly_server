@@ -31,3 +31,19 @@ class Teachers(models.Model):
 
     def __str__(self):
         return self.name
+
+class Reviews(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=1500)
+    rating = models.IntegerField(
+        validators=[
+            MaxValueValidator(5),
+            MinValueValidator(1)
+        ]
+    )
+    author = models.ForeignKey(Students,default=None)
+    teacher = models.ForeignKey(Teachers,default=None)
+
+    def __str__(self):
+        return self.title
+    
