@@ -20,6 +20,10 @@ from main_app import views
 
 router = routers.DefaultRouter()
 router.register(r'instruments', views.InstrumentView, 'instruments')
+router.register(r'students', views.StudentView, 'students')
+router.register(r'teachers', views.TeacherView, 'teachers')
+router.register(r'reviews', views.ReviewView, 'reviews')
+router.register(r'inquiries', views.InquiryView, 'inquiries')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

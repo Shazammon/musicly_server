@@ -7,24 +7,24 @@ from .models import Instrument, Student, Teacher, Review, Inquiry
 class InstrumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instrument
-        fields = ('name')
+        fields = ('id', 'name')
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('name', 'username', 'email', 'password')
         model = Student
+        fields = ('id', 'name', 'username', 'email', 'password')
 
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('name', 'email', 'password', 'bio', 'average_rating', 'years_experience', 'accepting_students', 'instruments')
         model = Teacher
+        fields = ('id', 'name', 'email', 'password', 'bio', 'average_rating', 'years_experience', 'accepting_students', 'instruments')
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('title', 'content', 'rating', 'author', 'teacher')
         model = Review
+        fields = ('id', 'title', 'content', 'rating', 'author', 'teacher')
 
 class InquirySerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('student_name', 'instrument', 'content', 'availability', 'phone_number', 'email', 'viewed', 'inquirer', 'preferred_teacher')
         model = Inquiry
+        fields = ('id', 'student_name', 'instrument', 'content', 'availability', 'phone_number', 'email', 'viewed', 'inquirer', 'preferred_teacher')
