@@ -17,6 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from main_app import views
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 router = routers.DefaultRouter()
 router.register(r'instruments', views.InstrumentView, 'instruments')
@@ -28,5 +32,7 @@ router.register(r'inquiries', views.InquiryView, 'inquiries')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main_app.urls')),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

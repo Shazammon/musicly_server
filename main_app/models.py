@@ -16,6 +16,7 @@ class Student(models.Model):
     username = models.CharField(max_length=100)
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
+    image = models.CharField(max_length=300, blank=True, null=True)
 
     def __str__(self):
         return self.username
@@ -26,6 +27,7 @@ class Teacher(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=50)
     bio = models.CharField(max_length=1000, blank=True, null=True)
+    image = models.CharField(max_length=300, blank=True, null=True)
     average_rating = models.IntegerField(
         validators=[
             MaxValueValidator(5),
