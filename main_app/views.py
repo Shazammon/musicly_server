@@ -23,7 +23,10 @@ def reviews(request):
 def inquiries(request):
     inquiries = Inquiry.objects.all()
     return render(request, 'inquiries_list.html', {'inquiries': inquiries})
-    
+
+
+
+
 class InstrumentView(viewsets.ModelViewSet):
     serializer_class = InstrumentSerializer
     queryset = Instrument.objects.all()
