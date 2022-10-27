@@ -30,19 +30,26 @@ class UserManager(BaseUserManager):
         if username is None:
             raise TypeError('Superusers must have an username.')     
 
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
         user = self.create_user(email, username, password, **extra_fields)
-        user.is_staff()
-        user.is_superuser = True
         user.save()
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(db_index=True, unique=True, max_length=254)
+    is_staff = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
     username = models.CharField(max_length=240, unique=True)
 
     objects = UserManager()
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
+    def __str_(self):
+        return self.email
 
 class Instrument(models.Model):
     name = models.CharField(max_length=50)
