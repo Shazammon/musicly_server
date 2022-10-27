@@ -1,6 +1,19 @@
 # imports
 from rest_framework import serializers
 from .models import Instrument, Student, Teacher, Review, Inquiry
+from django.contrib.auth.hashers import make_password
+
+# function to hash the password
+
+def validate_password(self, value: str) -> str:
+    """
+    Hash value passed by user.
+
+    :param value: password of a user
+    :return: a hashed version of the password
+    """
+    return make_password(value)
+
 
 # serializer classes
 
