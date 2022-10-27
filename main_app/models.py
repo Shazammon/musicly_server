@@ -2,6 +2,7 @@ from contextlib import nullcontext
 from email.policy import default
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth.models import User, AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 # Create your models here.
 
@@ -11,11 +12,19 @@ class Instrument(models.Model):
     def __str__(self):
         return self.name
 
-class Student(models.Model):
+class UserManager(BaseUserManager):
+
+    def create_user(self, username, email, password)
+
+class Student(AbstractBaseUser):
+    username = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=100)
-    username = models.CharField(max_length=100)
-    email = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50, unique=True)
+    # password = models.CharField(max_length=50)
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
 
     def __str__(self):
         return self.username
