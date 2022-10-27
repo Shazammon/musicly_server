@@ -2,8 +2,54 @@ from contextlib import nullcontext
 from email.policy import default
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 # Create your models here.
+
+class UserManager(BaseUserManager):
+    def create_user(self, email, username, password, **extra_fields):
+
+        if username is None:
+            raise TypeError('Users must have a username.')
+        if email is None:
+            raise TypeError('Users must have an email.')
+
+        user = self.model(
+        email = self.normalize_email(email),
+                username = username,
+                **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, username, password, **extra_fields):
+        if password is None:
+            raise TypeError('Superusers must have a password.')
+        if email is None:
+            raise TypeError('Superusers must have an email.')
+        if username is None:
+            raise TypeError('Superusers must have an username.')     
+
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        user = self.create_user(email, username, password, **extra_fields)
+        user.save()
+        return user
+
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(db_index=True, unique=True, max_length=254)
+    is_staff = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+    username = models.CharField(max_length=240, unique=True)
+
+    objects = UserManager()
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
+    def __str_(self):
+        return self.email
 
 class Instrument(models.Model):
     name = models.CharField(max_length=50)
