@@ -11,6 +11,7 @@ urlpatterns = [
     path('instruments/', views.instruments, name='instruments'),
     path('students/', views.students, name='students'),
     path('teachers/', views.teachers, name='teachers'),
+    path('users/', views.users, name='users'),
     path('reviews/', views.reviews, name='reviews'),
     path('inquiries/', views.inquiries, name='inquiries'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
