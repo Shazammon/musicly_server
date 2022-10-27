@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
-from .serializers import InstrumentSerializer, StudentSerializer, TeacherSerializer, ReviewSerializer, InquirySerializer, UserSerializer
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .serializers import UserSerializer, InstrumentSerializer, StudentSerializer, TeacherSerializer, ReviewSerializer, InquirySerializer
 from django.http import HttpResponse
 from .models import User, Instrument, Student, Teacher, Review, Inquiry
 
@@ -27,6 +30,13 @@ def inquiries(request):
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
+class MeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
 class InstrumentView(viewsets.ModelViewSet):
     serializer_class = InstrumentSerializer
