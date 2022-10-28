@@ -14,6 +14,9 @@ def home(request):
 def instruments(request):
     instruments = Instrument.objects.all()
     return render(request, 'instruments_list.html', {'instruments': students})
+def users(request):
+    users = User.objects.all()
+    return render(request, 'users_list.html', {'users': students})
 def students(request):
     students = Student.objects.all()
     return render(request, 'students_list.html', {'students': students})

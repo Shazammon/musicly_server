@@ -61,7 +61,7 @@ class Student(models.Model):
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     email = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
+    password = models.TextField(null=True)
     image = models.CharField(max_length=300, blank=True, null=True)
 
     def __str__(self):
@@ -71,7 +71,7 @@ class Student(models.Model):
 class Teacher(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
-    password = models.CharField(max_length=50)
+    password = models.TextField(null=True)
     bio = models.CharField(max_length=1000, blank=True, null=True)
     image = models.CharField(max_length=300, blank=True, null=True)
     average_rating = models.IntegerField(
