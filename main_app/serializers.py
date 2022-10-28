@@ -7,20 +7,13 @@ from django.contrib.auth import get_user_model
 # function to hash the password
 
 
-def validate_password(self, value: str) -> str:
-    """
-    Hash value passed by user.
 
-    :param value: password of a user
-    :return: a hashed version of the password
-    """
-    return make_password(value)
 
 
 # serializer classes
 
 # define current user
-User = get_user_model()
+# User = get_user_model()
 
 class InstrumentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,9 +21,13 @@ class InstrumentSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'teachers')
 
 class UserSerializer(serializers.ModelSerializer):
+    def validate_password(self, value: str) -> str:
+        return make_password(value)
+
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'name', 'is_teacher', 'image', 'bio', 'average_rating', 'years_experience', 'accepting_students', 'instruments', 'location', 'inquirer', 'inquiree', 'reviewer', 'reviewee')
+        fields = "__all__"
+        # fields = ('id', 'email', 'username', 'name', 'is_teacher', 'image', 'bio', 'average_rating', 'years_experience', 'accepting_students', 'instruments', 'location', 'inquirer', 'inquiree', 'reviewer', 'reviewee')
         # exclude = ('password',)
 
 

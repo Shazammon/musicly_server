@@ -1,8 +1,7 @@
-from contextlib import nullcontext
-from email.policy import default
+# from contextlib import nullcontext
+# from email.policy import default
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 
@@ -14,45 +13,37 @@ class Instrument(models.Model):
     def __str__(self):
         return self.name
 
-def validate_password(self, value: str) -> str:
-    """
-    Hash value passed by user.
-
-    :param value: password of a user
-    :return: a hashed version of the password
-    """
-    return make_password(value)
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, username, password, **extra_fields):
+    def create_user(self, email, password, username, **extra_fields):
 
-        if username is None:
-            raise TypeError('Users must have a username.')
-        if email is None:
-            raise TypeError('Users must have an email.')
+        if not email:
+            raise ValueError("Email must be provided")
+        if not password:
+            raise ValueError('Password is not provided')
 
         user = self.model(
         email = self.normalize_email(email),
                 username = username,
                 **extra_fields)
-        make_password(password)
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password, **extra_fields):
-        if password is None:
-            raise TypeError('Superusers must have a password.')
-        if email is None:
-            raise TypeError('Superusers must have an email.')
-        if username is None:
-            raise TypeError('Superusers must have an username.')     
+    def create_superuser(self, password, email, username, **extra_fields):
+        # if password is None:
+        #     raise TypeError('Superusers must have a password.')
+        # if email is None:
+        #     raise TypeError('Superusers must have an email.')
+        # if username is None:
+        #     raise TypeError('Superusers must have an username.')     
 
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
+        # extra_fields.setdefault('is_staff', True)
+        # extra_fields.setdefault('is_superuser', True)
+        # extra_fields.setdefault('is_active', True)
 
         user = self.create_user(email, username, password, **extra_fields)
-        user.save()
+        # user.save()
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -81,6 +72,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
     def __str__(self):
         return self.email
