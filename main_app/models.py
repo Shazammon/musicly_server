@@ -7,36 +7,39 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, username, password, **extra_fields):
+    def _create_user(self, email, password, username, **extra_fields):
 
-        if username is None:
-            raise TypeError('Users must have a username.')
         if email is None:
-            raise TypeError('Users must have an email.')
+            raise TypeError('An email must be provided.')
+        if not password:
+            raise TypeError('Password must be provided.')
 
         user = self.model(
         email = self.normalize_email(email),
                 username = username,
                 **extra_fields)
-        user.set_password(password)
+        # user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password, **extra_fields):
-        if password is None:
-            raise TypeError('Superusers must have a password.')
-        if email is None:
-            raise TypeError('Superusers must have an email.')
-        if username is None:
-            raise TypeError('Superusers must have an username.')     
 
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
+    def create_user(self, email, password, username, **extra_fields):
+        return self._create_user(email, password, username, **extra_fields)
+    # def create_superuser(self, email, username, password, **extra_fields):
+    #     if password is None:
+    #         raise TypeError('Superusers must have a password.')
+    #     if email is None:
+    #         raise TypeError('Superusers must have an email.')
+    #     if username is None:
+    #         raise TypeError('Superusers must have an username.')     
 
-        user = self.create_user(email, username, password, **extra_fields)
-        user.save()
-        return user
+        # extra_fields.setdefault('is_staff', True)
+        # extra_fields.setdefault('is_superuser', True)
+        # extra_fields.setdefault('is_active', True)
+
+        # user = self.create_user(email, username, password=password, **extra_fields)
+        # user.save(using=self._db)
+        # return user
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(db_index=True, unique=True, max_length=254)

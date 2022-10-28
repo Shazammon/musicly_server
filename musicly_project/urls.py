@@ -23,6 +23,7 @@ from rest_framework_simplejwt.views import (
 )
 
 router = routers.DefaultRouter()
+router.register(r'users', views.UserView, 'users')
 router.register(r'instruments', views.InstrumentView, 'instruments')
 router.register(r'students', views.StudentView, 'students')
 router.register(r'teachers', views.TeacherView, 'teachers')

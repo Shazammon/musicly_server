@@ -11,6 +11,9 @@ from .models import User, Instrument, Student, Teacher, Review, Inquiry
 # Create your views here.
 def home(request):
     return HttpResponse('<h1>THIS IS MUSICALY<h1>')
+def users(request):
+    users = User.objects.all()
+    return render(request, 'users_list.html', {'users': students})
 def instruments(request):
     instruments = Instrument.objects.all()
     return render(request, 'instruments_list.html', {'instruments': students})
