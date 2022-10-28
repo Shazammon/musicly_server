@@ -6,6 +6,12 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 # Create your models here.
 
+class Instrument(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
 class UserManager(BaseUserManager):
     def create_user(self, email, username, password, **extra_fields):
 
@@ -43,6 +49,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     username = models.CharField(max_length=240, unique=True)
+    image = models.CharField(max_length=300, blank=True, null=True)
+    bio = models.CharField(max_length=1000, blank=True, null=True)
+    average_rating = models.IntegerField(
+        validators=[
+            MaxValueValidator(5),
+            MinValueValidator(1)
+        ], blank=True, null=True
+    )
+    years_experience = models.IntegerField(blank=True, null=True)
+    accepting_students = models.BooleanField(
+        default = True
+    )
+    instruments = models.ManyToManyField(Instrument, blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
@@ -50,12 +70,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str_(self):
         return self.email
-
-class Instrument(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
@@ -99,8 +113,8 @@ class Review(models.Model):
             MinValueValidator(1)
         ]
     )
-    author = models.ForeignKey(Student,on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name ='reviewer', on_delete=models.CASCADE)
+    teacher = models.ForeignKey(User, related_name ='reviewee', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -113,8 +127,8 @@ class Inquiry(models.Model):
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
     viewed = models.BooleanField(default=False)
-    inquirer = models.ForeignKey(Student,on_delete=models.CASCADE, blank=True, null=True)
-    preferred_teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE, blank=True, null=True)
+    inquirer = models.ForeignKey(User, related_name ='inquirer', on_delete=models.CASCADE, blank=True, null=True)
+    preferred_teacher = models.ForeignKey(User,related_name ='inquiree', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.conent
