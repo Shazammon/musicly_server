@@ -50,6 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     username = models.CharField(max_length=240, unique=True)
+    is_teacher = models.BooleanField(default = False)
     image = models.CharField(max_length=300, blank=True, null=True)
     bio = models.CharField(max_length=1000, blank=True, null=True)
     average_rating = models.IntegerField(
