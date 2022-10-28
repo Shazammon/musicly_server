@@ -144,6 +144,12 @@ class Inquiry(models.Model):
     inquirer = models.ForeignKey(User, related_name ='inquirer', on_delete=models.CASCADE, blank=True, null=True)
     preferred_teacher = models.ForeignKey(User,related_name ='inquiree', on_delete=models.CASCADE, blank=True, null=True)
 
+    def inquirer_name(self):
+        return self.inquirer.name
+
+    def preferred_teacher_name(self):
+        return self.preferred_teacher.name
+
     def __str__(self):
         return self.content
     

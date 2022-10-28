@@ -52,4 +52,4 @@ class ReviewSerializer(serializers.ModelSerializer):
 class InquirySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inquiry
-        fields = ('id', 'student_name', 'instrument', 'content', 'availability', 'phone_number', 'email', 'viewed', 'inquirer', 'preferred_teacher')
+        fields = ('id', 'student_name', 'instrument', 'content', 'availability', 'phone_number', 'email', 'viewed', 'inquirer', 'preferred_teacher', 'inquirer_name', 'preferred_teacher_name')
