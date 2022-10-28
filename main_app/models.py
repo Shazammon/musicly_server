@@ -24,7 +24,7 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email),
                 username = username,
                 **extra_fields)
-        user.set_password(password)
+        # user.set_password(password)
         user.save(using=self._db)
         return user
 
@@ -52,6 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=240, unique=True)
     is_teacher = models.BooleanField(default = False)
     image = models.CharField(max_length=300, blank=True, null=True)
+    tag_line = models.CharField(max_length=200, blank=True, null=True)
     bio = models.CharField(max_length=1000, blank=True, null=True)
     average_rating = models.IntegerField(
         validators=[
@@ -63,7 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     accepting_students = models.BooleanField(
         default = True
     )
-    instruments = models.ManyToManyField(Instrument, blank=True, null=True)
+    instruments = models.ManyToManyField(Instrument, related_name ='teachers', blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
 
     objects = UserManager()
