@@ -24,13 +24,13 @@ class UserManager(BaseUserManager):
 
         user = self.model(
         email = self.normalize_email(email),
-                username = username,
+                username = first_name,
                 **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, password, email, username, **extra_fields):
+    def create_superuser(self, email, password, username, **extra_fields):
         # if password is None:
         #     raise TypeError('Superusers must have a password.')
         # if email is None:
@@ -39,10 +39,10 @@ class UserManager(BaseUserManager):
         #     raise TypeError('Superusers must have an username.')     
 
         # extra_fields.setdefault('is_staff', True)
-        # extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_superuser', True)
         # extra_fields.setdefault('is_active', True)
 
-        user = self.create_user(email, username, password, **extra_fields)
+        user = self.create_user(email, password, username, **extra_fields)
         # user.save()
         return user
 
