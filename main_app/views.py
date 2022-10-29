@@ -30,6 +30,12 @@ def inquiries(request):
     inquiries = Inquiry.objects.all()
     return render(request, 'inquiries_list.html', {'inquiries': inquiries})
     
+
+# def update_average_rating(request, pk):
+#     average_rating = User.objects.get(pk=pk)
+#     return render(request, 'average_rating.html', {'average_rating':average_rating})
+
+
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -60,3 +66,4 @@ class ReviewView(viewsets.ModelViewSet):
 class InquiryView(viewsets.ModelViewSet):
     serializer_class = InquirySerializer
     queryset = Inquiry.objects.all()
+

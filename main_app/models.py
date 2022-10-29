@@ -62,6 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             MinValueValidator(1)
         ], blank=True, null=True
     )
+    number_of_ratings = models.IntegerField(blank=True, null=True)
     years_experience = models.IntegerField(blank=True, null=True)
     accepting_students = models.BooleanField(
         default = True
