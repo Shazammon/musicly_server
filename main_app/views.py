@@ -77,30 +77,35 @@ class ReviewView(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def update_rating_fields(self, request, pk=None):
-        print('jere ot os')
-        print(json.dumps(request.data))
+        # print(json.dumps(request.data))
         serializer_class = ReviewSerializer(data=request.data)
+        print('**********************')
+        print(request.data)
+        print('**********************')
         if serializer_class.is_valid():
-            print('im here')
-            print(json.dumps(serializer_class.data))
-            u = User.objects.get(pk=serializer_class.validated_data.teacher)
-            print('double here')
-            print(u)
-            total_review = (u.number_of_ratings * u.average_rating)
-            print(total_review)
-            number_of_ratings = u.number_of_ratings + 1 
-            print(number_of_ratings)
-            u.number_of_ratings = number_of_ratings
-            print(u.number_of_ratings)
-            u.average_rating =(total_review + serializer_class.validated_data.rating) / u.number_of_ratings
-            print(u.average_rating)
-            print(u.number_of_ratings)
-        
-        # x = User(number_of_ratings=number_of_ratings, average_rating=average_rating)
+            print(serializer_class.validated_data)
+            # u = User.objects.get(pk=serializer_class.validated_data['teacher'].id)
+            u = serializer_class.validated_data['teacher']
+
+            reviews = Review.objects.filter(teacher=u.id)
+            average = sum([review.rating for review in reviews])/reviews.count()
+            u.average_rating = average
+            u.number_of_ratings = reviews.count()
             u.save()
-            return Response('success')
-        else:
-            return Response('error')
+            return Response(status=204)
+        return Response(status=400)
+        #     total_review = (u.number_of_ratings * u.average_rating)
+        #     print(total_review)
+        #     number_of_ratings = u.number_of_ratings + 1 
+        #     print(number_of_ratings)
+        #     u.number_of_ratings = number_of_ratings
+        #     print(u.number_of_ratings)
+        #     u.average_rating =(total_review + serializer_class.validated_data.rating) / u.number_of_ratings 
+        #     print(u.average_rating)
+        #     print(u.number_of_ratings)
+        
+        # # x = User(number_of_ratings=number_of_ratings, average_rating=average_rating)
+        #     u.save()
         
 # class AverageRaingView(viewsets.ModelViewSet):
 #     serializer_class = UserSerializer
