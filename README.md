@@ -41,7 +41,9 @@ Teachers can begin by selecting the "Signup" button which takes them to a form t
 
 ---
 
-# Client installation instructions
+# Installation instructions
+
+## Client installation
 
 To run Musicly on your local machine, first fork and clone this repository. Then follow these steps:
 
@@ -53,6 +55,24 @@ to install all of the packages needed to run the app.
 * Make sure your server is running in order to create accounts and browse the website
 * Enjoy!
 
+## Server installation
+
+* First set up a virtual environment in which to run the project
+```
+python3 -m venv .env
+```
+* Next, activate your virtual environment
+```
+source .env/bin/activate
+```
+* Once you are operating inside your virtual environment, you can run the command ```pip3 install -r requirements.txt``` to download the required dependencies for the server.
+* Now you will need to create a sql database in order to use the project locally. 
+    * In another terminal, run the command ```psql``` to enter the postgres shell
+    * Then, to create the database, run ```CREATE DATABASE musiclydatabase```
+* Once your database has been created, return to your project, and we will need to run migrations with the command ```python3 manage.py migrate```
+* After that, your project should be ready to run!
+* ```python3 manage.py runserver``` to get your server running
+* Congratulations! If you navigate to ```localhost:8000``` you should see your django project running!
 # Wireframes
 
 <img width=500px src='./public/Wireframes.png' />
