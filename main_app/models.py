@@ -24,7 +24,7 @@ class UserManager(BaseUserManager):
 
         user = self.model(
         email = self.normalize_email(email),
-                username = first_name,
+                username = username,
                 **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -72,8 +72,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     location = models.CharField(max_length=100, blank=True, null=True)
 
     objects = UserManager()
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = 'User'
