@@ -79,11 +79,11 @@ class ReviewView(viewsets.ModelViewSet):
     def update_rating_fields(self, request, pk=None):
         # print(json.dumps(request.data))
         serializer_class = ReviewSerializer(data=request.data)
-        print('**********************')
-        print(request.data)
-        print('**********************')
+        # print('**********************')
+        # print(request.data)
+        # print('**********************')
         if serializer_class.is_valid():
-            print(serializer_class.validated_data)
+            # print(serializer_class.validated_data)
             # u = User.objects.get(pk=serializer_class.validated_data['teacher'].id)
             u = serializer_class.validated_data['teacher']
 

@@ -67,6 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     accepting_students = models.BooleanField(
         default = True
     )
+    instruments_teach = models.CharField(max_length=255, blank=True, null=True)
     instruments = models.ManyToManyField(Instrument, related_name ='teachers', blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
 
