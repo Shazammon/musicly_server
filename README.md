@@ -152,3 +152,12 @@ source .env/bin/activate
 - Location-based search
 - Students can create profile pages
 - Option to send an email that opens up outlook
+
+# Post project reflections
+
+## hurdles/roadblocks
+* Our biggest hurdle was generally learning Django on the fly. With user auth and building out the api routes, this part ended up taking a lot more of our time than we anticipated 
+* Another hurdle was figuring out using localStorage to keep a user logged in once they were authorized
+
+## future plans
+* include a seach function for students to find a teacher that teaches the instrument they are looking for
